@@ -20,7 +20,7 @@ class CurrentReleaseTest extends RocketeerTestCase
             return $mock
                 ->shouldReceive('getValidationFile')->once()->andReturn([10000000000000 => true])
                 ->shouldReceive('getCurrentRelease')->once()->andReturn('20000000000000')
-                ->shouldReceive('getCurrentReleasePath')->once();
+                ->shouldReceive('getCurrentReleasePath')->twice();
         });
 
         $this->assertTaskOutput('CurrentRelease', '20000000000000');

@@ -431,12 +431,6 @@ class ConnectionsHandler
             return $branch;
         }
 
-        // Compute the fallback branch
-        exec($this->scm->currentBranch(), $fallback);
-        $fallback = Arr::get($fallback, 0, 'master');
-        $fallback = trim($fallback);
-        $branch   = $this->rocketeer->getOption('scm.branch') ?: $fallback;
-
-        return $branch;
+        return $this->rocketeer->getOption('scm.branch');
     }
 }
