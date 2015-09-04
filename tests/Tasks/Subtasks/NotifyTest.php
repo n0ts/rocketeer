@@ -11,6 +11,8 @@
 namespace Rocketeer\Tasks\Subtasks;
 
 use Rocketeer\Dummies\DummyBeforeAfterNotifier;
+use Rocketeer\Dummies\DummyBeforeAfterArrayNotifier;
+use Rocketeer\Dummies\DummyArrayNotifier;
 use Rocketeer\TestCases\RocketeerTestCase;
 
 class NotifyTest extends RocketeerTestCase
@@ -24,7 +26,21 @@ class NotifyTest extends RocketeerTestCase
         $this->tasks->plugin(new DummyBeforeAfterNotifier($this->app));
 
         $this->expectOutputString('before_deployafter_deploy');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
+
+        $this->task('Deploy')->fireEvent('before');
+        $this->task('Deploy')->fireEvent('after');
+    }
+
+    public function testCanSendTheArrayFromCommandEvent()
+    {
+        $this->swapConfig([
+            'rocketeer::hooks' => [],
+        ]);
+
+        $this->tasks->plugin(new DummyBeforeAfterArrayNotifier($this->app));
+
+        $this->expectOutputString('dummy_array_notifierdummy_array_notifier');
 
         $this->task('Deploy')->fireEvent('before');
         $this->task('Deploy')->fireEvent('after');

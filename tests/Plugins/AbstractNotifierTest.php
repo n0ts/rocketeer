@@ -38,14 +38,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     {
         $this->expectOutputString('foobar finished deploying branch "master" on "staging@production" (foo.bar.com)');
 
-        $this->mockCommand([], ['ask' => 'foobar']);
-        $this->mock('rocketeer.storage.local', 'LocalStorage', function ($mock) {
-            return $mock
-                ->shouldIgnoreMissing()
-                ->shouldReceive('get')->with('connections')
-                ->shouldReceive('get')->with('notifier.name')->andReturn(null)
-                ->shouldReceive('set')->once()->with('notifier.name', 'foobar');
-        });
+        $_SERVER['USER'] = 'foobar';
         $this->mock('rocketeer.connections', 'ConnectionsHandler', function ($mock) {
             return $mock
                 ->shouldReceive('getRepositoryBranch')->andReturn('master')
@@ -61,7 +54,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanAppendStageToDetails()
     {
         $this->expectOutputString('Jean Eude finished deploying branch "master" on "staging@production" (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
         $this->tasks->registerConfiguredEvents();
         $this->connections->setStage('staging');
 
@@ -71,7 +64,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanSendDeploymentsNotifications()
     {
         $this->expectOutputString('Jean Eude finished deploying branch "master" on "production" (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Deploy')->fireEvent('after');
     }
@@ -79,7 +72,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testDoesntSendNotificationsInPretendMode()
     {
         $this->expectOutputString('');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->pretendTask('Deploy')->fireEvent('after');
     }
@@ -87,7 +80,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanBeforeNotification()
     {
         $this->expectOutputString('Jean Eude deploying branch "master" on "production"');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Before')->fireEvent('before');
     }
@@ -95,7 +88,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanAfterNotification()
     {
         $this->expectOutputString('Jean Eude finished deploying branch "master" on "production"');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('After')->fireEvent('after');
     }

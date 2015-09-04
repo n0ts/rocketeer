@@ -111,6 +111,7 @@ abstract class AbstractCommand extends Command
             ['on', 'C', InputOption::VALUE_REQUIRED, 'The connection(s) to execute the Task in'],
             ['stage', 'S', InputOption::VALUE_REQUIRED, 'The stage to execute the Task in'],
             ['branch', 'B', InputOption::VALUE_REQUIRED, 'The branch to deploy'],
+            ['user', 'U', InputOption::VALUE_REQUIRED, 'The user name to deploy'],
         ];
 
         // Additional credentials passed to Rocketeer
