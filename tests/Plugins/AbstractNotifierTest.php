@@ -32,6 +32,9 @@ class AbstractNotifierTest extends RocketeerTestCase
 
         $this->notifier = new DummyNotifier($this->app);
         $this->tasks->plugin($this->notifier);
+
+        // Initialize ReleasesManager
+        $this->releasesManager->getCurrentReleasePath();
     }
 
     public function testCanAskForNameIfNoneProvided()
@@ -48,7 +51,7 @@ class AbstractNotifierTest extends RocketeerTestCase
                 ->shouldReceive('getServerCredentials')->andReturn(['host' => 'foo.bar.com']);
         });
 
-        $this->task('deploy')->fireEvent('before');
+        $this->task('Deploy')->fireEvent('before');
     }
 
     public function testCanAppendStageToDetails()

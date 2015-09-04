@@ -82,4 +82,11 @@ class FilesystemTest extends RocketeerTestCase
 
         $this->assertEmpty($this->history->getFlattenedOutput());
     }
+
+    public function testCanGetReleaseFromCurrentPath()
+    {
+        $release = $this->bash->getReleaseFromCurrentPath();
+
+        $this->assertEquals($release, '10000000000000');
+    }
 }
