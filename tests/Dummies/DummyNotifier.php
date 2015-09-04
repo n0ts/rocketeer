@@ -23,7 +23,15 @@ class DummyNotifier extends AbstractNotifier
      */
     public function getMessageFormat($message)
     {
-        return '{1} finished deploying branch "{2}" on "{3}" ({4})';
+        switch ($message) {
+            case 'before_before':
+                return '{1} deploying branch "{2}" on "{3}"';
+            case 'after_after':
+                return '{1} finished deploying branch "{2}" on "{3}"';
+            case 'before_deploy':
+            case 'after_deploy':
+                return '{1} finished deploying branch "{2}" on "{3}" ({4})';
+        }
     }
 
     /**

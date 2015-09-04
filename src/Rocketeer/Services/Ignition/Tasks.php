@@ -26,6 +26,8 @@ class Tasks
     {
         $tasks = [
             ''               => 'Rocketeer',
+            'after'          => 'After',
+            'before'         => 'Before',
             'check'          => 'Check',
             'cleanup'        => 'Cleanup',
             'current'        => 'CurrentRelease',

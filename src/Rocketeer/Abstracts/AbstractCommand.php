@@ -164,6 +164,9 @@ abstract class AbstractCommand extends Command
             $this->laravel['rocketeer.credentials']->getRepositoryCredentials();
         }
 
+        // Run before tasks
+        $this->laravel['rocketeer.builder']->buildTask('before')->fire();
+
         if ($this->straight) {
             // If we only have a single task, run it
             $status = $this->laravel['rocketeer.builder']->buildTask($tasks)->fire();
@@ -175,6 +178,9 @@ abstract class AbstractCommand extends Command
                 return $pipeline->succeeded();
             });
         }
+
+        // Run after tasks
+        $this->laravel['rocketeer.builder']->buildTask('after')->fire();
 
         // Remove command instance
         unset($this->laravel['rocketeer.command']);
