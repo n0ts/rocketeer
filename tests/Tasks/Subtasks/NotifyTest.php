@@ -25,11 +25,12 @@ class NotifyTest extends RocketeerTestCase
 
         $this->tasks->plugin(new DummyBeforeAfterNotifier($this->app));
 
-        $this->expectOutputString('before_deployafter_deploy');
+        $this->expectOutputString('before_deployafter_deployafter_rollback');
         $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Deploy')->fireEvent('before');
         $this->task('Deploy')->fireEvent('after');
+        $this->task('Rollback')->fireEvent('after');
     }
 
     public function testCanSendTheArrayFromCommandEvent()
