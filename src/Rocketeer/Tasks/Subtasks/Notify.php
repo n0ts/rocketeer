@@ -91,7 +91,27 @@ class Notify extends AbstractTask
             $connection = $stage.'@'.$connection;
         }
 
-        return compact('user', 'branch', 'connection', 'host');
+        list($task, $event) = explode(".", $this->event);
+        if ($event === 'before') {
+            return compact('user', 'branch', 'connection', 'host');
+        }
+
+        // Get revision and remote origin url
+        $current_state = '';
+        $remote_origin_url = '';
+        $current_state = $this->scm->run('currentState');
+        if (get_class($this->scm) === 'Rocketeer\Scm\Git') {
+            $remote_origin_url = $this->scm->run('getRemoteOriginUrl');
+            $remote_origin_url = str_replace('.git', '/commit/' . $current_state, $remote_origin_url);
+        }
+
+        // Get release
+        $release = $this->releasesManager->getCurrentRelease();
+
+        // Get release path
+        $release_path = $this->releasesManager->getCurrentReleasePath();
+
+        return compact('user', 'branch', 'connection', 'host', 'current_state', 'remote_origin_url', 'release', 'release_path');
     }
 
     /**

@@ -71,6 +71,16 @@ class Git extends AbstractBinary implements ScmInterface
         }
     }
 
+    /**
+     * Get remote origin url. (Git only)
+     *
+     */
+    public function getRemoteOriginUrl()
+    {
+        $this->setCurrentReleasePath();
+        return $this->config('--get remote.origin.url');
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////// ACTIONS ////////////////////////////
     ////////////////////////////////////////////////////////////////////
