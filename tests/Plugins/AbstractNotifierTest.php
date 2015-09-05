@@ -75,7 +75,7 @@ class AbstractNotifierTest extends RocketeerTestCase
     public function testCanSendRollbackNotifications()
     {
         $this->expectOutputString('Jean Eude rolled back branch "master" on "production" to previous version (foo.bar.com)');
-        $this->localStorage->set('notifier.name', 'Jean Eude');
+        $_SERVER['USER'] = 'Jean Eude';
 
         $this->task('Rollback')->fireEvent('after');
     }
