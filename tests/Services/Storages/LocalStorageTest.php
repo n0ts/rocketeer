@@ -28,6 +28,7 @@ class LocalStorageTest extends RocketeerTestCase
 
     public function testCanCreateDeploymentsFileAnywhere()
     {
+        $this->app['path.base'] = '.';
         $this->app['path.storage'] = null;
         $this->app->offsetUnset('path.storage');
 

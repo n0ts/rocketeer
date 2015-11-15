@@ -72,7 +72,7 @@ class Pathfinder
      */
     public function getRocketeerConfigFolder()
     {
-        return $this->getUserHomeFolder().'/.rocketeer';
+        return $this->getBasePath().'.config';
     }
 
     /**

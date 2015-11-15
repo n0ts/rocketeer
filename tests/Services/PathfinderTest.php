@@ -95,10 +95,11 @@ class PathfinderTest extends RocketeerTestCase
 
     public function testCanGetRocketeerFolder()
     {
-        $_SERVER['HOME'] = '/some/folder';
+        $this->app['path.base'] = '/some/folder';
+        //$_SERVER['HOME'] = '/some/folder';
         $rocketeer       = $this->paths->getRocketeerConfigFolder();
 
-        $this->assertEquals('/some/folder/.rocketeer', $rocketeer);
+        $this->assertEquals('/some/folder/.config', $rocketeer);
     }
 
     public function testCanGetBoundPath()
